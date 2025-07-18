@@ -1,0 +1,21 @@
+text,priority,due_date,category,created_date,completed_date
+Submit project report,High,2025-07-20,Work,2025-07-15,2025-07-19
+Buy groceries,Low,2025-07-22,Personal,2025-07-20,2025-07-21
+Finalize presentation,Medium,2025-07-25,Work,2025-07-21,2025-07-26
+Pay electricity bill,High,2025-07-18,Bills,2025-07-15,2025-07-19
+Book doctor appointment,Medium,2025-07-21,Health,2025-07-20,2025-07-22
+Complete taxes,High,2025-07-30,Finance,2025-07-01,2025-07-29
+Watch movie,Low,2025-07-28,Entertainment,2025-07-26,2025-07-28
+Renew car insurance,High,2025-07-23,Bills,2025-07-20,2025-07-23
+Send birthday card,Low,2025-07-25,Personal,2025-07-24,2025-07-25
+Team meeting prep,Medium,2025-07-19,Work,2025-07-16,2025-07-19
+Buy dog food,Low,2025-07-21,Personal,2025-07-19,2025-07-20
+Submit expense report,Medium,2025-07-22,Finance,2025-07-21,2025-07-23
+Call mom,Low,2025-07-20,Personal,2025-07-19,2025-07-20
+Doctor follow-up,High,2025-07-24,Health,2025-07-23,2025-07-25
+Review client feedback,Medium,2025-07-26,Work,2025-07-25,2025-07-26
+Pay rent,High,2025-08-01,Bills,2025-07-28,2025-08-01
+Weekly budget planning,Medium,2025-07-27,Finance,2025-07-25,2025-07-27
+Clean house,Low,2025-07-29,Personal,2025-07-28,2025-07-29
+Update resume,Medium,2025-07-30,Work,2025-07-29,2025-07-30
+Gym session,Low,2025-07-20,Health,2025-07-19,2025-07-20

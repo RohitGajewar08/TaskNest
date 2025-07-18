@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TaskNest</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .ml-badge {
+      background-color: #ffeaa7;
+      color: #2d3436;
+      font-size: 0.75em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 5px;
+    }
+    .overdue {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>TaskNest</h1>
+
+    <form method="get" class="filter-form">
+      <select name="status">
+        <option value="">All</option>
+        <option value="pending" {% if request.args.get('status')=='pending' %}selected{% endif %}>Pending</option>
+        <option value="completed" {% if request.args.get('status')=='completed' %}selected{% endif %}>Completed</option>
+      </select>
+      <select name="priority">
+        <option value="">All Priorities</option>
+        {% for pr in ['Low','Medium','High'] %}
+          <option value="{{ pr }}" {% if request.args.get('priority')==pr %}selected{% endif %}>{{ pr }}</option>
+        {% endfor %}
+      </select>
+      <select name="category_id">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+          <option value="{{ cat.id }}" {% if request.args.get('category_id')==cat.id|string %}selected{% endif %}>{{ cat.name }}</option>
+        {% endfor %}
+      </select>
+      <select name="sort">
+        <option value="">Sort: Recent</option>
+        <option value="due_date" {% if request.args.get('sort')=='due_date' %}selected{% endif %}>Due Date</option>
+        <option value="priority" {% if request.args.get('sort')=='priority' %}selected{% endif %}>Priority</option>
+      </select>
+      <button type="submit">Apply</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-container">
+          {% for cat, msg in messages %}
+            <div class="flash-message {{ cat }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" class="task-form">
+      <input type="text" name="task" placeholder="New task" required>
+      <input type="text" name="category" placeholder="Category">
+      <input type="date" name="due_date">
+      <select name="priority">
+        <option value="">Priority</option>
+        {% for pr in ['Low','Medium','High'] %}
+          <option value="{{ pr }}">{{ pr }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Add</button>
+    </form>
+
+    <ul class="task-list">
+      {% for task in tasks %}
+        <li>
+          <a href="{{ url_for('toggle', task_id=task.id) }}" class="{{ 'completed' if task.completed }}">
+            {{ task.task }}
+          </a>
+          {% if task.category %}
+            <span class="category-label">{{ task.category.name }}</span>
+            {% if task.predicted_category %}<span class="ml-badge" title="Predicted by AI">ML</span>{% endif %}
+          {% endif %}
+          {% if task.due_date %}
+            {% if task.due_date < current_date %}
+              <span class="due-date-label overdue">Overdue: {{ task.due_date }}</span>
+            {% else %}
+              <span class="due-date-label">Due: {{ task.due_date }}</span>
+            {% endif %}
+            {% if task.predicted_due %}<span class="ml-badge" title="Predicted by AI">ML</span>{% endif %}
+          {% endif %}
+          {% if task.priority %}
+            <span class="priority-label {{ task.priority|lower }}">{{ task.priority }}</span>
+            {% if task.predicted_priority %}<span class="ml-badge" title="Predicted by AI">ML</span>{% endif %}
+          {% endif %}
+          <a href="{{ url_for('edit', task_id=task.id) }}" class="edit-btn" title="Edit">✏️</a>
+          <a href="{{ url_for('delete', task_id=task.id) }}" class="delete-btn" title="Delete">🗑️</a>
+        </li>
+      {% else %}
+        <li class="empty">No tasks yet!</li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
